@@ -1,12 +1,14 @@
 %{
 #include <stdio.h>
 extern int yylineno;
-}%
+%}
 
 %token IF_ ELSE_ ELSEIF_ WHILE_ DO_
 %token OPPOSI_ OPNEGA_ OPNOT_ OPINCR_ OPDECR_
 %token READ_ PRINT_ 
-%token OPASI_ OPSUMA_ OPMULT_ OPSUB_ OPDIV_ OPMOD_
+%token DIF_ IGU_ MAIG_ MAYOR_ MENOR_ MEIG_ OR_ AND_
+%token OPSUMA_ OPMULT_ OPSUB_ OPDIV_ OPMOD_
+%token OPASI_ OPASIADD_ OPASIDIV_ OPASISUB_ OPASIMUL_
 %token PARENTA_ PARENTC_ FININS_ CORCHA_ CORCHC_ LLAVEA_ LLAVEC_
 %token INT_ BOOL_ CTE_ ID_ TRUE_ FALSE_
 
@@ -23,7 +25,7 @@ sentencia: declaracion
 ;
 
 declaracion: tipoSimple ID_ FININS_
-           | tipoSimple ID_ CORCHA_ CTE_ CORCHEC_ FININS_
+           | tipoSimple ID_ CORCHA_ CTE_ CORCHC_ FININS_
 ;
 
 tipoSimple: INT_ 
