@@ -1,62 +1,92 @@
 %{
-%}
+#include <stdio.h>
+extern int yylineno;
+}%
 
-%token IF_ ELSE_ ELSEIF_ WHILE_ DO_ 
-%token READ_ PRINT_ OPASIG_ OPSUMA_ OPMULT_ OPSUB_ OPDIV_
+%token IF_ ELSE_ ELSEIF_ WHILE_ DO_
+%token OPPOSI_ OPNEGA_ OPNOT_ OPINCR_ OPDECR_
+%token READ_ PRINT_ 
+%token OPASI_ OPSUMA_ OPMULT_ OPSUB_ OPDIV_ OPMOD_
 %token PARENTA_ PARENTC_ FININS_ CORCHA_ CORCHC_ LLAVEA_ LLAVEC_
-%token INT_ BOOL_ CTE_ ID_
+%token INT_ BOOL_ CTE_ ID_ TRUE_ FALSE_
 
 %%
 
-programa: LLAVEA_ secuenciaSentencias LLAVEC_;
-
-secuenciaSentencias: sentencia
-				   | secuenciaSentencias sentencia
+expresion : expresionLogica
+	  | ID_ operadorAsignacion expresion
+	  | ID_ CORCHA_ expresion CORCHC_ operadorAsignacion expresion
 ;
-
-sentencia: declaracion
-		 | instruccion
+	  
+expresionLogica : expresionIgualdad
+	        | expresionLogica operadorLogico expresionIgualdad
 ;
-
-declaracion: tipoSimple ID_ FININS_
-		   | tipoSimple ID_ CORCHA_ CTE_ CORCHEC_ FININS_
+	      
+expresionIgualdad : expresionRelacional
+		  | expresionIgualdad operadorIgualdad expresionRelacional
 ;
-
-tipoSimple: INT_ 
-		  | BOOL_
+		  
+expresionRelacional : expresionAditiva
+		    | expresionRelacional operadorRelacional expresionAditiva
 ;
-
-instruccion: LLAVEA_ listaInstrucciones LLAVEC_
-		   | instruccionEntradaSalida
-		   | instruccionExpresion
-		   | instruccionSeleccion
-		   | instruccionIteracion
+		    
+expresionAditiva : expresionMultiplicativa
+	         | expresionAditiva operadorAditivo expresionMultiplicativa	         
 ;
-
-listaInstrucciones: listaInstrucciones instruccion
-				  |
+	         
+expresionMultiplicativa : expresionUnaria
+			| expresionMultiplicativa operadorMultiplicativo expresionUnaria
 ;
-
-instruccionExpresion: expresion FININS_ 
-					| FININS_
+			
+expresionUnaria : expresionSufija 
+                | operadorUnario expresionUnaria
+                | operadorIncremento ID_
 ;
-
-instruccionEntradaSalida: READ_ PARENTA_ ID_ PARENTC_ FININS_
-						| PRINT_ PARENTA_ expresion PARENTC_ FININS_
+                
+expresionSufija : PARENTA_ expresion PARENTC_ 
+		| ID_ operadorIncremento
+		| ID_ CORCHA_ expresion CORCHC_
+		| ID_
+		| CTE_
+		| TRUE_
+		| FALSE_
 ;
-
-instruccionSeleccion: IF_ PARENTA_ expresion PARENTC_ instruccion restoIf;
-
-restoIf: ELSEIF_ PARENTA_ expresion PARENTC_ instruccion restoIf
-	   | ELSE_ instruccion
+		
+operadorAsignacion : OPASI_
+		   | OPASIADD_
+		   | OPASISUB_
+		   | OPASIMUL_
+		   | OPASIDIV_
 ;
-
-instruccionIteracion: WHILE_ PARENTA_ expresion PARENTC_ instruccion
-					| DO_ instruccion WHILE_ PARENTA_ expresion PARENTC_
+		   
+operadorLogico : AND_
+	       | OR_
 ;
-
-
-
-
-
-
+	       
+operadorIgualdad : IGU_
+	         | DIF_
+;
+	        
+operadorRelacional : MAYOR_
+                   | MENOR_
+		   | MAIG_
+		   | MEIG_
+;
+		 
+operadorAditivo : OPSUMA_
+	        | OPSUB_
+;
+	        
+operadorMultiplicativo : OPMULT_
+                       | OPDIV_
+                       | OPMOD_
+;
+                       
+operadorUnario : OPPOSI_
+	       | OPNEGA_
+	       | OPNOT_
+;
+                       
+operadorIncremento : OPINCR_
+                   | OPDECR_
+;
+%%
