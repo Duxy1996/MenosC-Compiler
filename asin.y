@@ -15,48 +15,48 @@ extern int yylineno;
 programa: LLAVEA_ secuenciaSentencias LLAVEC_;
 
 secuenciaSentencias: sentencia
-				   | secuenciaSentencias sentencia
+                   | secuenciaSentencias sentencia
 ;
 
 sentencia: declaracion
-		 | instruccion
+         | instruccion
 ;
 
 declaracion: tipoSimple ID_ FININS_
-		   | tipoSimple ID_ CORCHA_ CTE_ CORCHEC_ FININS_
+           | tipoSimple ID_ CORCHA_ CTE_ CORCHEC_ FININS_
 ;
 
 tipoSimple: INT_ 
-		  | BOOL_
+          | BOOL_
 ;
 
 instruccion: LLAVEA_ listaInstrucciones LLAVEC_
-		   | instruccionEntradaSalida
-		   | instruccionExpresion
-		   | instruccionSeleccion
-		   | instruccionIteracion
+           | instruccionEntradaSalida
+           | instruccionExpresion
+           | instruccionSeleccion
+           | instruccionIteracion
 ;
 
 listaInstrucciones: listaInstrucciones instruccion
-				  |
+		  |
 ;
 
 instruccionExpresion: expresion FININS_ 
-					| FININS_
+                    | FININS_
 ;
 
 instruccionEntradaSalida: READ_ PARENTA_ ID_ PARENTC_ FININS_
-						| PRINT_ PARENTA_ expresion PARENTC_ FININS_
+                        | PRINT_ PARENTA_ expresion PARENTC_ FININS_
 ;
 
 instruccionSeleccion: IF_ PARENTA_ expresion PARENTC_ instruccion restoIf;
 
 restoIf: ELSEIF_ PARENTA_ expresion PARENTC_ instruccion restoIf
-	   | ELSE_ instruccion
+       | ELSE_ instruccion
 ;
 
 instruccionIteracion: WHILE_ PARENTA_ expresion PARENTC_ instruccion
-					| DO_ instruccion WHILE_ PARENTA_ expresion PARENTC_
+                    | DO_ instruccion WHILE_ PARENTA_ expresion PARENTC_
 ;
 
 expresion : expresionLogica
