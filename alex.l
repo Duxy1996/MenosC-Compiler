@@ -1,7 +1,6 @@
 %{
   #include <stdio.h>
   #include "asin.h"
-  extern FILE *yyin;
 %}
 
 %option yylineno
@@ -16,92 +15,67 @@ comentario  [\/\/].*[\n]
 %%
 
 {delimitador} {}
-read {return(READ_);}
-print {return(PRINT_);}
+read {visualizar("READ_");return(READ_);}
+print {visualizar("PRINT_");return(PRINT_);}
 
-true {return(TRUE_);}
-false {return(FALSE_);}
+true {visualizar("TRUE_");return(TRUE_);}
+false {visualizar("FALSE_");return(FALSE_);}
 
-do {return(DO_);}
-while {return(WHILE_);}
+do {visualizar("DO_");return(DO_);}
+while {visualizar("WHILE_");return(WHILE_);}
 
-if {return(IF_);}
-else {return(ELSE_);}
-elseif {return(ELSEIF_);}
+if {visualizar("IF_");return(IF_);}
+else {visualizar("ELSE_");return(ELSE_);}
+elseif {visualizar("ELSEIF_");return(ELSEIF_);}
 
-bool {return(BOOL_);}
-int {return(INT_);}
+bool {visualizar("BOOL_");return(BOOL_);}
+int {visualizar("INT_");return(INT_);}
 
-"=" {return(OPASI_);}
-"+=" {return(OPASIADD_);}
-"-=" {return(OPASISUB_);}
-"*=" {return(OPASIMUL_);}
-"/=" {return(OPASIDIV_);}
+"=" {visualizar("OPASI_");return(OPASI_);}
+"+=" {visualizar("OPASIADD_");return(OPASIADD_);}
+"-=" {visualizar("OPASISUB_");return(OPASISUB_);}
+"*=" {visualizar("OPASIMUL_");return(OPASIMUL_);}
+"/=" {visualizar("OPASIDIV_");return(OPASIDIV_);}
 
-">" {return(MAYOR_);}
-"<" {return(MENOR_);}
-"<=" {return(MEIG_);}
-">=" {return(MAIG_);}
-"==" {return(IGU_);}
-"!=" {return(DIF_);}
+">" {visualizar("MAYOR_");return(MAYOR_);}
+"<" {visualizar("MENOR_");return(MENOR_);}
+"<=" {visualizar("MEIG_");return(MEIG_);}
+">=" {visualizar("MAIG_");return(MAIG_);}
+"==" {visualizar("IGU_");return(IGU_);}
+"!=" {visualizar("DIF_");return(DIF_);}
 
-"++" {return(OPINCR_);}
-"--" {return(OPDECR_);}
+"++" {visualizar("OPINCR_");return(OPINCR_);}
+"--" {visualizar("OPDECR_");return(OPDECR_);}
 
-"&&" {return(AND_);}
-"||" {return(OR_);}
+"&&" {visualizar("AND_");return(AND_);}
+"||" {visualizar("OR_");return(OR_);}
 
-"!" {return(OPNOT_);}
-[-]{identificador} {return(OPNEGA_);}
-[+]{identificador} {return(OPPOSI_);}
+"!" {visualizar("OPNOT_");return(OPNOT_);}
+[-]{identificador} {visualizar("OPNEGA_");return(OPNEGA_);}
+[+]{identificador} {visualizar("OPPOSI_");return(OPPOSI_);}
 
-"+" {return(OPSUMA_);}
-"-" {return(OPSUB_);}
-"*" {return(OPMULT_);}
-"/" {return(OPDIV_);}
-"%" {return(OPMOD_);}
+"+" {visualizar("OPSUMA_");return(OPSUMA_);}
+"-" {visualizar("OPSUB_");return(OPSUB_);}
+"*" {visualizar("OPMULT_");return(OPMULT_);}
+"/" {visualizar("OPDIV_");return(OPDIV_);}
+"%" {visualizar("OPMOD_");return(OPMOD_);}
 
-"(" {return(PARENTA_);}
-")" {return(PARENTC_);}
-"[" {return(CORCHA_);}
-"]" {return(CORCHC_);}
-"{" {return(LLAVEA_);}
-"}" {return(LLAVEC_);}
-";" {return(FININS_);}
-{constante} {return(CTE_);}
+"(" {visualizar("PARENTA_");return(PARENTA_);}
+")" {visualizar("PARENTC_");return(PARENTC_);}
+"[" {visualizar("CORCHA_");return(CORCHA_);}
+"]" {visualizar("CORCHC_");return(CORCHC_);}
+"{" {visualizar("LLAVEA_");return(LLAVEA_);}
+"}" {visualizar("LLAVEC_");return(LLAVEC_);}
+";" {visualizar("FININS_");return(FININS_);}
+{constante} {visualizar("CTE_");return(CTE_);}
 {comentario} {}
-{identificador} {return(ID_);}
+{identificador} {visualizar("ID_");return(ID_);}
 . {}
 
 %%
 
-int verbosidad=0;               /* Flag para saber si se desea una traza */
-int numErrores=0;                   /* Contador del numero de errores        */
-/*****************************************************************************/
-void yyerror(const char * msg)
-/*  Tratamiento de errores.                                                  */
-{
-  numErrores++;
-  fprintf(stdout, "\nError at line %d: %s\n", yylineno, msg);
+void visualizar(char* texto) {
+  printf("%3d-%s %s\n", yylineno, texto, yytext);
 }
-/*****************************************************************************/
-int main (int argc, char **argv) 
-/* Gestiona la linea de comandos e invoca al analizador sintactico-semantico.*/
-{ int i, n = 0;
 
-  for (i=0; i<argc; ++i) { 
-    if (strcmp(argv[i], "-v")==0) { verbosidad = 1; n++; }
-  }
-  --argc; n++;
-  if (argc == n) {
-    if ((yyin = fopen (argv[argc], "r")) == NULL)
-      fprintf (stderr, "Fichero no valido %s\n", argv[argc]);      
-    else {        
-      if (verbosidad == 1) fprintf(stdout,"%3d.- ", yylineno);
-      yyparse ();
-      if (numErrores > 0) 
-        fprintf(stdout,"\nNumero de errores:      %d\n", numErrores);
-    }   
-  }
-  else fprintf (stderr, "Uso: cmc [-v] fichero\n");
-} 
+
