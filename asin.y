@@ -3,15 +3,13 @@
 #include "header.h"
 #include "principal.c"
 extern int yylineno;
-extern FILE *yyin;
-int numErrores;
 %}
 
 %token IF_ ELSE_ ELSEIF_ WHILE_ DO_
 %token OPNOT_ OPINCR_ OPDECR_
 %token READ_ PRINT_ 
 %token DIF_ IGU_ MAIG_ MAYOR_ MENOR_ MEIG_ OR_ AND_
-%token OPSUMA_ OPMULT_ OPSUB_ OPDIV_ OPMOD_
+%token OPMAS_ OPMULT_ OPMENOS_ OPDIV_ OPMOD_
 %token OPASI_ OPASIADD_ OPASIDIV_ OPASISUB_ OPASIMUL_
 %token PARENTA_ PARENTC_ FININS_ CORCHA_ CORCHC_ LLAVEA_ LLAVEC_
 %token INT_ BOOL_ CTE_ ID_ TRUE_ FALSE_
@@ -40,7 +38,7 @@ instruccion: LLAVEA_ listaInstrucciones LLAVEC_
            | instruccionEntradaSalida
            | instruccionExpresion
            | instruccionSeleccion
-           | instruccionIteracion	   
+           | instruccionIteracion
 ;
 
 listaInstrucciones: listaInstrucciones instruccion
@@ -125,8 +123,8 @@ operadorRelacional : MAYOR_
 		   | MEIG_
 ;
 		 
-operadorAditivo : OPSUMA_
-	            | OPSUB_
+operadorAditivo : OPMAS_
+	        | OPMENOS_
 ;
 	        
 operadorMultiplicativo : OPMULT_
@@ -134,8 +132,8 @@ operadorMultiplicativo : OPMULT_
                        | OPMOD_
 ;
                        
-operadorUnario : OPSUMA_
-	       | OPSUB_
+operadorUnario : OPMAS_
+	       | OPMENOS_
 	       | OPNOT_
 ;
                        

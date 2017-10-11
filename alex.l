@@ -1,6 +1,8 @@
 %{
   #include <stdio.h>
   #include "asin.h"
+  void visualizar(char* texto);
+  extern int verbosidad;
 %}
 
 %option yylineno
@@ -10,27 +12,25 @@ letra [a-zA-Z]
 digito [0-9]
 constante {digito}+
 identificador {letra}({letra}|{digito}|_)*
-comentario  [\/\/].*[\n]
 
 %%
 
 {delimitador} {}
-read {visualizar("READ_");return(READ_);}
-print {visualizar("PRINT_");return(PRINT_);}
+read {return(READ_);}
+print {return(PRINT_);}
 
-true {visualizar("TRUE_");return(TRUE_);}
-false {visualizar("FALSE_");return(FALSE_);}
+true {return(TRUE_);}
+false {return(FALSE_);}
 
-do {visualizar("DO_");return(DO_);}
-while {visualizar("WHILE_");return(WHILE_);}
+do {return(DO_);}
+while {return(WHILE_);}
 
-if {visualizar("IF_");return(IF_);}
-else {visualizar("ELSE_");return(ELSE_);}
-elseif {visualizar("ELSEIF_");return(ELSEIF_);}
+if {return(IF_);}
+else {return(ELSE_);}
+elseif {return(ELSEIF_);}
 
-bool {visualizar("BOOL_");return(BOOL_);}
-int {visualizar("INT_");return(INT_);}
-
+bool {return(BOOL_);}
+int {return(INT_);}
 "=" {visualizar("OPASI_");return(OPASI_);}
 "+=" {visualizar("OPASIADD_");return(OPASIADD_);}
 "-=" {visualizar("OPASISUB_");return(OPASISUB_);}
@@ -52,8 +52,8 @@ int {visualizar("INT_");return(INT_);}
 
 "!" {visualizar("OPNOT_");return(OPNOT_);}
 
-"+" {visualizar("+");return(OPSUMA_);}
-"-" {visualizar("-");return(OPSUB_);}
+"+" {visualizar("+");return(OPMAS_);}
+"-" {visualizar("-");return(OPMENOS_);}
 "*" {visualizar("OPMULT_");return(OPMULT_);}
 "/" {visualizar("OPDIV_");return(OPDIV_);}
 "%" {visualizar("OPMOD_");return(OPMOD_);}
@@ -65,15 +65,15 @@ int {visualizar("INT_");return(INT_);}
 "{" {visualizar("LLAVEA_");return(LLAVEA_);}
 "}" {visualizar("LLAVEC_");return(LLAVEC_);}
 ";" {visualizar("FININS_");return(FININS_);}
+"//".* {}
 {constante} {visualizar("CTE_");return(CTE_);}
-{comentario} {}
 {identificador} {visualizar("ID_");return(ID_);}
 . {}
 
 %%
 
 void visualizar(char* texto) {
-  printf("%3d-%s %s\n", yylineno, texto, yytext);
+  if(verbosidad == 1) 
+  	printf("%3d-%s %s\n", yylineno, texto, yytext);
 }
-
 
