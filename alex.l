@@ -76,4 +76,3 @@ void visualizar(char* texto) {
   if(verbosidad == 1) 
   	printf("%3d-%s %s\n", yylineno, texto, yytext);
 }
-
