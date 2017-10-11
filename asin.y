@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include "header.c"
+#include "header.h"
 #include "principal.c"
 extern int yylineno;
 extern FILE *yyin;
