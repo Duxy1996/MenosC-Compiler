@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "header.c"
 #include "principal.c"
 extern int yylineno;
 extern FILE *yyin;
@@ -7,7 +8,7 @@ int numErrores;
 %}
 
 %token IF_ ELSE_ ELSEIF_ WHILE_ DO_
-%token OPPOSI_ OPNEGA_ OPNOT_ OPINCR_ OPDECR_
+%token OPNOT_ OPINCR_ OPDECR_
 %token READ_ PRINT_ 
 %token DIF_ IGU_ MAIG_ MAYOR_ MENOR_ MEIG_ OR_ AND_
 %token OPSUMA_ OPMULT_ OPSUB_ OPDIV_ OPMOD_
@@ -133,8 +134,8 @@ operadorMultiplicativo : OPMULT_
                        | OPMOD_
 ;
                        
-operadorUnario : OPPOSI_
-	       | OPNEGA_
+operadorUnario : OPSUMA_
+	       | OPSUB_
 	       | OPNOT_
 ;
                        

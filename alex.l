@@ -51,11 +51,9 @@ int {visualizar("INT_");return(INT_);}
 "||" {visualizar("OR_");return(OR_);}
 
 "!" {visualizar("OPNOT_");return(OPNOT_);}
-[-]{identificador} {visualizar("OPNEGA_");return(OPNEGA_);}
-[+]{identificador} {visualizar("OPPOSI_");return(OPPOSI_);}
 
-"+" {visualizar("OPSUMA_");return(OPSUMA_);}
-"-" {visualizar("OPSUB_");return(OPSUB_);}
+"+" {visualizar("+");return(OPSUMA_);}
+"-" {visualizar("-");return(OPSUB_);}
 "*" {visualizar("OPMULT_");return(OPMULT_);}
 "/" {visualizar("OPDIV_");return(OPDIV_);}
 "%" {visualizar("OPMOD_");return(OPMOD_);}
