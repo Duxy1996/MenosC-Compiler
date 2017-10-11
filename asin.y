@@ -1,6 +1,9 @@
 %{
 #include <stdio.h>
+#include "principal.c"
 extern int yylineno;
+extern FILE *yyin;
+int numErrores;
 %}
 
 %token IF_ ELSE_ ELSEIF_ WHILE_ DO_
@@ -36,7 +39,7 @@ instruccion: LLAVEA_ listaInstrucciones LLAVEC_
            | instruccionEntradaSalida
            | instruccionExpresion
            | instruccionSeleccion
-           | instruccionIteracion
+           | instruccionIteracion	   
 ;
 
 listaInstrucciones: listaInstrucciones instruccion
@@ -122,7 +125,7 @@ operadorRelacional : MAYOR_
 ;
 		 
 operadorAditivo : OPSUMA_
-	        | OPSUB_
+	            | OPSUB_
 ;
 	        
 operadorMultiplicativo : OPMULT_
