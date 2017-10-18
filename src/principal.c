@@ -27,7 +27,6 @@ int main (int argc, char **argv)
     if ((yyin = fopen (argv[argc], "r")) == NULL)
       fprintf (stderr, "Fichero no valido %s\n", argv[argc]);      
     else {        
-      if (verbosidad == TRUE) fprintf(stdout,"%3d.- ", yylineno);
       yyparse ();
       if (numErrores > 0) 
         fprintf(stdout,"\nNumero de errores:      %d\n", numErrores);
